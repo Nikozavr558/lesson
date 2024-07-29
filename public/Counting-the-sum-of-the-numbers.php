@@ -5,4 +5,4 @@ while ($i <= 100) {
     $sum = $sum += $i;
     $i++;
 }
-echo $sum . '<br>';
+echo $sum . " ";
