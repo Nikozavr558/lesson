@@ -7,7 +7,7 @@ $products = [
 ];
 foreach ($products as $product) {
     if ($product ['quantity'] > 0) {
-        echo sprintf("Product: %s, Price: %s, Quantyti: %s" . '<br>',
+        echo sprintf("Product: %s, Price: %s, Quantyti: %s <'br'>",
             $product ["name"],
             $product ["price"],
             $product ["quantity"]);
