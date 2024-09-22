@@ -4,9 +4,15 @@ abstract class Vehicle
 {
     const WHEELS = '4';
 
-    abstract public function startEngine();
+    public function startEngine()
+    {
+        echo " " . "</br";
+    }
 
-    abstract public function stopEngine();
+    public function stopEngine()
+    {
+        echo " " . "</br>";
+    }
 
     public function wheelsCount()
     {
