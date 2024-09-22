@@ -6,12 +6,12 @@ abstract class Vehicle
 
     public function startEngine()
     {
-        echo " " . "</br";
+        echo "Двигатель завелся " . "</br>";
     }
 
     public function stopEngine()
     {
-        echo " " . "</br>";
+        echo "Двигатель заглох " . "</br>";
     }
 
     public function wheelsCount()
@@ -22,17 +22,8 @@ abstract class Vehicle
 
 class Car extends Vehicle
 {
-    public function startEngine()
-    {
-        return "Машина завелась ";
-    }
 
-    public function stopEngine()
-    {
-        return "Машина заглохла ";
-    }
 }
-
 
 $car = new Car();
 echo $car->startEngine() . "</br>";
@@ -42,16 +33,6 @@ echo $car->wheelscount() . "</br>";
 class Bike extends Vehicle
 {
     const WHEELS = '2';
-
-    public function startEngine()
-    {
-        return "Мотоцикл завелся ";
-    }
-
-    public function stopEngine()
-    {
-        return "Мотоцикл заглох ";
-    }
 }
 
 $bike = new Bike();
