@@ -7,6 +7,8 @@ abstract class Vehicle
     abstract public function startEngine();
 
     abstract public function stopEngine();
+
+    abstract public function wheelsCount();
 }
 
 class car extends Vehicle
@@ -20,7 +22,13 @@ class car extends Vehicle
     {
         echo "Машинка заглохла: Брррррр " . "</br>";
     }
-    // TODO: Implement stopEngine() method.
+
+    public function wheelsCount()
+    {
+        echo "Колес у машины: " . Car::WHEELS . "</br>";
+    }
+
+
 }
 
 class bike extends Vehicle
@@ -36,19 +44,26 @@ class bike extends Vehicle
     {
         echo "Мотоцикл заглох: бы-бы-бы-бы" . "</br>";
     }
+
+    public function wheelsCount()
+
+    {
+        echo "Колес у мотоцикла: " . Bike::WHEELS . "</br>";
+    }
+
 }
 
 $car = new Car();
 $car->startEngine();
 $car->stopEngine();
-
-echo "Колес машины: " . Car::WHEELS . "</br>";
+$car->wheelsCount();
 
 $bike = new Bike();
 $bike->startEngine();
 $bike->stopEngine();
+$bike->wheelsCount();
 
-echo "Колес мотоцикла: " . Bike::WHEELS;
+
 
 
 
