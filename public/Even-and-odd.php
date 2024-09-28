@@ -1,5 +1,5 @@
 <?php
-function checkEvenodd($number)
+function checkEvenOdd($number)
 {
     if ($number % 2 == 0) {
         return "Число $number - четное ";
@@ -8,5 +8,5 @@ function checkEvenodd($number)
     }
 }
 
-echo checkEvenodd(6) . "</br>";
-echo checkEvenodd(7) . "</br>";
+echo checkEvenOdd(6) . "</br>";
+echo checkEvenOdd(7) . "</br>";
