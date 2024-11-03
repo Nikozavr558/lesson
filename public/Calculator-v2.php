@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Калькулятор</title>
+    <title>Калькулятор v 2.0</title>
     <style>
         .calculator {
             display: grid;
