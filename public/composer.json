@@ -1,0 +1,12 @@
+{
+  "name": "example/data-processor",
+  "description": "A simple data processor for CSV and JSON files",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "DataProcessor\\": "src/"
+    }
+  },
+  "require": {},
+  "version": "1.0"
+}
