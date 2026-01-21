@@ -13,7 +13,7 @@ echo "Меня зовут $Firstname , Моя фамилия $Lastname , мне 
 
 $name = "Ритис";
 $Age = 300;
-$result = sprintf("Меня зовут %s, мне %d лет.", $name, $Age);
+$result = sprintf("Меня зовут %s, мне %d лет.", $name, $Age); // - важная херня!
 echo $result;
 
 
