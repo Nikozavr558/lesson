@@ -1,12 +1,10 @@
 <?php
 
-$fruits = [
-    "apple",
-    "cherry",
-    "Banana",
-    "orage",
-];
+$fruits = ["apple", "cherry", "Banana", "orage",];
 
-foreach ($fruits as $fruit) {
-    echo $fruit . "<br>";
+$i = 0;
+$lenght = count($fruits);  // задаем длину (значение) 4-элемента. (count - считает сколько в массиве элементов "apple" и т.д
+while ($lenght > $i) {
+    echo $fruits[$i] . "<br>";
+    $i++;
 }
