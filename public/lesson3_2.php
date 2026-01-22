@@ -7,6 +7,6 @@ $fruits = [
     "strawberry",
     "lemon"
 ];
-    foreach ($fruits as $fruits) {
+foreach ($fruits as $fruits) {
     echo $fruits . "<br>";
 }
