@@ -7,6 +7,6 @@ $fruits = [
     "strawberry",
     "lemon"
 ];
-foreach ($fruits as $fruits) {
-    echo $fruits . "<br>";
+foreach ($fruits as $fruit) {
+    echo $fruit . "<br>";
 }
