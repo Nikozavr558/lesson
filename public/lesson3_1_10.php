@@ -9,6 +9,7 @@ $type = match(true) {
     is_array($value) => "Массив",
     is_bool($value) => "Булевое число",
     is_null($value) => "ноль",
+    default => "не существует такого"
 };
 
 echo "$value - $type";
