@@ -2,10 +2,34 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $text = $_POST["text"];
-    echo "<p>Name: " . htmlspecialchars($name) . "</p>";
-    echo "<p>Email: " . htmlspecialchars($email) . "</p>";
-    echo "<p>Текст сообщения: " . htmlspecialchars($text) . "</p>";
+    $number = $_POST["number"];
+    $i = 1;
+
+
+    echo "Вы ввели: $number<br>";
+
+
+    for ($i =0; $i <= $number; $i++) {
+        echo $i . " ";
+    }
+    echo "<br>";
+
+    if ($number % 2 == 0) {
+        echo "$number - Четное число<br>";
+
+        for ($i = 0; $i <= $number; $i++) {
+            if ($i % 2 == 0) {
+                echo $i . " ";
+            }
+        }
+    } else {
+        echo "$number - Нечетное число<br>";
+
+        for ($i = 0; $i <= $number; $i++) {
+            if ($i % 2 !== 0) {
+                echo $i . " ";
+            }
+        }
+    }
 }
+
