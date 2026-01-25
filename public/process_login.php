@@ -3,8 +3,6 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $number = $_POST["number"];
-    $i = 1;
-
 
     echo "Вы ввели: $number<br>";
 
