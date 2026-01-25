@@ -2,21 +2,31 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+    $number = $_POST["number"];
 
-    echo "<h1>Введенные данные:</h1>";
-    echo "<ol>";
-    echo "<li>Name:</li> " . htmlspecialchars($name) . "<br>";
-    echo "<li>Email:</li> " . htmlspecialchars($email) . "<br>";
+    echo "Вы ввели: $number<br>";
 
 
-    if ($password !== "1234") {
-        echo "<li>Password: <br>Wrong credentials</li>";
-    } else echo "<li>Password:</li> " . htmlspecialchars($password) . "<br>";
+    for ($i =0; $i <= $number; $i++) {
+        echo $i . " ";
+    }
+    echo "<br>";
 
-    echo "</ol>";
+    if ($number % 2 == 0) {
+        echo "$number - Четное число<br>";
 
+        for ($i = 0; $i <= $number; $i++) {
+            if ($i % 2 == 0) {
+                echo $i . " ";
+            }
+        }
+    } else {
+        echo "$number - Нечетное число<br>";
 
+        for ($i = 0; $i <= $number; $i++) {
+            if ($i % 2 !== 0) {
+                echo $i . " ";
+            }
+        }
+    }
 }
