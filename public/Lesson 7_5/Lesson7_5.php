@@ -1,26 +1,62 @@
 <?php
 
-$expression = $_POST['expression'] ?? '';
-$btn = $_POST['btn'] ?? '';
+require_once 'LogicCalc.php';
+session_start();
 
-if ($btn === 'C') {
-    $expression = '';
-} elseif ($btn === '=') {
-    try {
-        // Очищаем и проверяем выражение
-        $safe_expression = preg_replace('/[^0-9+\-*\/\(\)\.\s]/', '', $expression);
-        // Используем eval() для вычисления
-        $result = eval('return ' . $safe_expression . ';');
-        $expression = (string)$result;
-
-
-    } catch (Throwable $e) {
-        $expression = 'Error';
-    }
-} elseif ($btn !== '') {
-    $expression .= $btn;
+if (!isset($_SESSION['expression'])) {
+    $_SESSION['expression'] = '';
+}
+if (!isset($_SESSION['justCalculated'])) {      // инициализируем флаг
+    $_SESSION['justCalculated'] = false;
 }
 
+$expression = $_SESSION['expression'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $btn = $_POST['btn'];
+
+    if ($btn === 'C') {              // если С то удаляем все
+        $expression = '';
+    } elseif ($btn === '←') {       // если <-  то удаляем 1 символ
+        $expression = mb_substr($expression, 0, -1);
+    } elseif ($btn === '=') {       // если = то используем класс  LogicCalc()
+        $calc = new LogicCalc();
+        try {
+            $expression = $calc->calculateExpression($expression);          // с класса нам приходит посчитанное число
+            $_SESSION['justCalculated'] = true;                 // включаем флаг TRUE после =
+        } catch (Exception $e) {
+            $expression = 'Ошибка';
+        }
+    } else {
+        if ($_SESSION['justCalculated']) {   // после =
+
+            if (in_array($btn, ['+', '-', '*', '/'])) {  // если оператор - ок
+                $expression .= $btn;
+            } else {
+                $expression = $btn;                     // если цифра, то стираем.
+            }
+
+            $_SESSION['justCalculated'] = false;
+        } else {                                                    // запрет на добавления второго оператора
+            $lastChar = mb_substr($expression, -1);            // и замена одного опер. на другой.
+            $operators = ['+', '-', '*', '/'];
+
+            if (in_array($btn, $operators)) {
+
+                if (in_array($lastChar, $operators)) {
+                    $expression = mb_substr($expression, 0, -1) . $btn;
+                } else {
+                    $expression .= $btn;
+                }
+
+            } else {
+
+                $expression .= $btn;
+            }
+        }
+    }
+    $_SESSION['expression'] = $expression;
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,46 +67,77 @@ if ($btn === 'C') {
     <title>Cul Cul Empty v1</title>
     <style>
         .calc-btn {
-            box-shadow: 0 3px 0 #313131;
-            border-radius: 40px;
+            box-shadow: 0 3px 0 #888888;
+            border-radius: 20px;
             width: 100px;
             height: 100px;
-            font-size: 40px;
+            font-size: 70px;
             margin: 2px;
+            background-color: #222831;
+            color: white;
+        }
+
+        .calc-btn:active, .calc-с:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #555;
+        }
+
+        .calc-btn, .calc-с {
+            transition: all 0.1s ease-in-out;
+        }
+
+        .calc-btn:hover, .calc-с:hover {
+            background-color: #393e46;
+            cursor: pointer;
         }
 
         .display {
-            box-shadow: 0 5px 0 #313131;
-            border-radius: 40px;
+            box-shadow: 0 5px 0 #888888;
+            border-radius: 20px;
             width: 415px;
             height: 100px;
             font-size: 80px;
             text-align: right;
-        }
-
-        .display {
-            background-color: #5ea462;
+            background-color: #00adb5;
             color: white;
         }
+
 
         .calc-с {
-            box-shadow: 0 5px 0 #313131;
-            border-radius: 40px;
-            background-color: #861616;
+            box-shadow: 0 5px 0 #888888;
+            border-radius: 20px;
+            background-color: #b5b8b1;
             color: white;
-            width: 425px;
+            width: 205px;
             height: 100px;
             font-size: 40px;
             margin: 2px;
+        }
+
+        .text {
+            box-shadow: 0 5px 0 #888888;
+            border-radius: 20px;
+            width: 415px;
+            height: 20px;
+            font-size: 20px;
+            text-align: right;
+            background-color: #222831;
+            color: white;
+        }
+
+        body {
+            background-color: rgba(231, 231, 231, 0.57);
         }
 
     </style>
 </head>
 <body>
 <form method="post">
-
-    <input class="display" type="text" name="expression" value="<?= htmlspecialchars($expression) ?>" readonly><br><br>
-    <input class="calc-с" type="submit" name="btn" value="C"><br><br>
+    <input class="text" type="name" name="name" value="КУЛЬ КУЛЬ v2.0" readonly><br><br>
+    <input class="display" type="text" name="expression"
+           value="<?= htmlspecialchars((string)$expression) ?>" readonly><br><br>
+    <input class="calc-с" type="submit" name="btn" value="C">
+    <input class="calc-с" type="submit" name="btn" value="←"><br><br>
     <input class="calc-btn" type="submit" name="btn" value="7">
     <input class="calc-btn" type="submit" name="btn" value="8">
     <input class="calc-btn" type="submit" name="btn" value="9">
@@ -90,10 +157,9 @@ if ($btn === 'C') {
     <input class="calc-btn" type="submit" name="btn" value="0">
     <input class="calc-btn" type="submit" name="btn" value=".">
     <input class="calc-btn" type="submit" name="btn" value="-">
-    <input class="calc-btn" type="submit" name="btn" value="=">
+    <input class="calc-btn" type="submit" name="btn" value="="><br>
+
 
 </form>
 </body>
 </html>
-
-
