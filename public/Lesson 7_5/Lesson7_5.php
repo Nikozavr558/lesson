@@ -3,60 +3,24 @@
 require_once 'LogicCalc.php';
 session_start();
 
-if (!isset($_SESSION['expression'])) {
-    $_SESSION['expression'] = '';
-}
-if (!isset($_SESSION['justCalculated'])) {      // инициализируем флаг
-    $_SESSION['justCalculated'] = false;
+$_SESSION['expression'] ??= '';
+$_SESSION['justCalculated'] ??= false;
+
+$calc = new LogicCalc(
+    $_SESSION['expression'],
+    $_SESSION['justCalculated']
+);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $expression = $calc->press($_POST['btn']);
+
+    $state = $calc->getState();
+    $_SESSION['expression'] = $state['expression'];
+    $_SESSION['justCalculated'] = $state['justCalculated'];
 }
 
 $expression = $_SESSION['expression'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $btn = $_POST['btn'];
-
-    if ($btn === 'C') {              // если С то удаляем все
-        $expression = '';
-    } elseif ($btn === '←') {       // если <-  то удаляем 1 символ
-        $expression = mb_substr($expression, 0, -1);
-    } elseif ($btn === '=') {       // если = то используем класс  LogicCalc()
-        $calc = new LogicCalc();
-        try {
-            $expression = $calc->calculateExpression($expression);          // с класса нам приходит посчитанное число
-            $_SESSION['justCalculated'] = true;                 // включаем флаг TRUE после =
-        } catch (Exception $e) {
-            $expression = 'Ошибка';
-        }
-    } else {
-        if ($_SESSION['justCalculated']) {   // после =
-
-            if (in_array($btn, ['+', '-', '*', '/'])) {  // если оператор - ок
-                $expression .= $btn;
-            } else {
-                $expression = $btn;                     // если цифра, то стираем.
-            }
-
-            $_SESSION['justCalculated'] = false;
-        } else {                                                    // запрет на добавления второго оператора
-            $lastChar = mb_substr($expression, -1);            // и замена одного опер. на другой.
-            $operators = ['+', '-', '*', '/'];
-
-            if (in_array($btn, $operators)) {
-
-                if (in_array($lastChar, $operators)) {
-                    $expression = mb_substr($expression, 0, -1) . $btn;
-                } else {
-                    $expression .= $btn;
-                }
-
-            } else {
-
-                $expression .= $btn;
-            }
-        }
-    }
-    $_SESSION['expression'] = $expression;
-}
 ?>
 
 <!DOCTYPE html>
