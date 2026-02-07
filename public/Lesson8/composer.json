@@ -1,0 +1,17 @@
+{
+  "name": "empty/src",
+  "autoload": {
+    "psr-4": {
+      "DataProcessor\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Termit",
+      "email": "emptytermit@gmail.com"
+    }
+  ],
+  "require": {
+    "monolog/monolog": "^3.10"
+  }
+}
