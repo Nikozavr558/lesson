@@ -10,7 +10,6 @@ if ($user): ?>
 <?php else: ?>
     <a href="index.php?action=login">Войти</a>
     <a href="index.php?action=register">Регистрация</a>
-    <a href="index.php?action=logout">Выйти</a>
 <?php endif; ?>
 
 
@@ -38,11 +37,11 @@ if ($user): ?>
         <div class="nav-links">
             <a href="index.php"><i class="fas fa-home"></i> Главная</a>
             <?php if ($user): ?>
-            <a href="index.php?action=create" class="btn">
-                <i class="fas fa-plus"></i> Создать пост
-            </a>
+                <a href="index.php?action=create" class="btn">
+                    <i class="fas fa-plus"></i> Создать пост
+                </a>
             <?php else: ?>
-            <a href="index.php?action=login" class="btn">Войти чтобы создать пост</a>
+                <a href="index.php?action=login" class="btn">Войти чтобы создать пост</a>
             <?php endif; ?>
         </div>
     </nav>
@@ -69,6 +68,7 @@ if ($user): ?>
 
                 <article class="post-card">
                     <div class="post-image">
+                        <!--<image style="object-fit: contain" src="data:image/jpeg;base64,<?= $row['image'] ?>"></image>-->
                         <i class="fas fa-newspaper"></i>
                     </div>
                     <div class="post-content">
@@ -89,16 +89,17 @@ if ($user): ?>
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <?php if ($user && $user['id'] == $row['user_id']): ?>
-                                <a href="index.php?action=update&id=<?= $row['id'] ?>"
-                                   class="btn btn-secondary" style="padding: 0.4rem 0.8rem;">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                                    <a href="index.php?action=update&id=<?= $row['id'] ?>"
+                                       class="btn btn-secondary" style="padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="index.php?action=delete&id=<?= $row['id'] ?>"
+                                       onclick="return confirm('Удалить эту новость?')"
+                                       class="btn btn-danger" style="padding: 0.4rem 0.8rem;">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 <?php endif; ?>
-                                <a href="index.php?action=delete&id=<?= $row['id'] ?>"
-                                   onclick="return confirm('Удалить эту новость?')"
-                                   class="btn btn-danger" style="padding: 0.4rem 0.8rem;">
-                                    <i class="fas fa-trash"></i>
-                                </a>
+
                             </div>
                         </div>
                     </div>

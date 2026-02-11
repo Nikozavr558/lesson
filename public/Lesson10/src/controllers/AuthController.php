@@ -1,6 +1,5 @@
 <?php
 
-// session_start();
 require_once '/var/www/public/Lesson10/src/models/UserModel.php';
 
 class AuthController
@@ -33,7 +32,7 @@ class AuthController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $result =  $this->userModel->create($_POST);
+            $result = $this->userModel->create($_POST);
 
             if (!$result) {
                 header('Location: index.php?action=register');

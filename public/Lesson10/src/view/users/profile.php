@@ -47,7 +47,7 @@ if (!isset($user)) {
     <?php foreach ($posts as $post): ?>
         <div class="post-item">
             <h4>
-                <a href="/view_post.php?id=<?= $post['id'] ?>">
+                <a href="index.php?action=view&id=<?= $post['id'] ?>">
                     <?= htmlspecialchars($post['title']) ?>
                 </a>
             </h4>
@@ -56,11 +56,11 @@ if (!isset($user)) {
         </div>
     <?php endforeach; ?>
 <?php else: ?>
-    <p>У вас еще нет постов. <a href="/create_post.php">Создать первый пост</a></p>
+    <p>У вас еще нет постов. <a href="index.php?action=create">Создать первый пост</a></p>
 <?php endif; ?>
 
 <hr>
-<a href="/enter_point.php">← На главную</a> |
-<a href="/logout.php">Выйти</a>
+<a href="index.php">← На главную</a> |
+<a href="index.php?action=logout">Выйти</a>
 </body>
 </html>

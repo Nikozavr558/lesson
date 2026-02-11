@@ -66,6 +66,14 @@ class PostController
 
     public function delete($id)     //DELETE
     {
+        $post = $this->postModel->find($id);
+
+        if (!$post || !$_SESSION['user'] || $post['user_id'] != $_SESSION['user']['id']) {
+            header("Location: index.php");
+            exit;
+        }
+
+
         // Используем Модель для удаления
         $this->postModel->delete($id);
 
