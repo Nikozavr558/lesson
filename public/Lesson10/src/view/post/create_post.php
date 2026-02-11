@@ -10,11 +10,11 @@
 <body>
 <div class="container">
     <nav class="navbar">
-        <a href="lesson10.php" class="logo">
+        <a href="index.php" class="logo">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
         <div class="nav-links">
-            <a href="lesson10.php"><i class="fas fa-home"></i> Главная</a>
+            <a href="index.php"><i class="fas fa-home"></i> Главная</a>
         </div>
     </nav>
 
@@ -24,7 +24,7 @@
             Создать новую новость
         </h1>
 
-        <form method="POST" action="lesson10.php?action=create">
+        <form method="POST" action="index.php?action=create">
             <div class="form-group">
                 <label for="title">
                     <i class="fas fa-heading"></i> Заголовок новости
@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-actions">
-                <a href="lesson10.php" class="btn btn-secondary">
+                <a href="index.php" class="btn btn-secondary">
                     <i class="fas fa-times"></i> Отмена
                 </a>
                 <button type="submit" class="btn">

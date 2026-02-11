@@ -9,12 +9,11 @@ class UserController
 
     public function __construct(PDO $pdo)
     {
-        $this->userModel = new UserModel($pdo);
         $this->pdo = $pdo;
         $this->userModel = new UserModel($pdo);
     }
 
-    public function register()
+   /* public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $this->userModel->create($_POST);
@@ -31,19 +30,19 @@ class UserController
 
             if ($user and password_verify($_POST['password'], $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
-                header('Location: lesson10.php?action=profile');
+                header('Location: index.php?action=profile');
                 die;
             }
             echo 'Неверный: Login or Password';
         }
         require '/var/www/public/Lesson10/src/view/users/login.php';
-    }
+    }*/
 
     public function profile()       // profile
     {
 
         if (!isset($_SESSION['user_id'])) {
-            header('Location: lesson10.php?action=login');
+            header('Location: index.php?action=login');
             exit;
         }
 
@@ -59,10 +58,10 @@ class UserController
         require '/var/www/public/Lesson10/src/view/users/profile.php';
     }
 
-    public function logout()        //logout
+/*    public function logout()        //logout
     {
         session_destroy();
-        header('Location: lesson10.php');
+        header('Location: index.php');
         die;
-    }
+    }*/
 }

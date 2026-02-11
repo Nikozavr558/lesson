@@ -11,11 +11,11 @@
 <div class="container">
     <!-- Навигация -->
     <nav class="navbar">
-        <a href="lesson10.php" class="logo">
+        <a href="index.php" class="logo">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
         <div class="nav-links">
-            <a href="lesson10.php"><i class="fas fa-home"></i> Главная</a>
+            <a href="index.php"><i class="fas fa-home"></i> Главная</a>
         </div>
     </nav>
 
@@ -39,10 +39,10 @@
             </div>
 
             <div style="display: flex; gap: 0.5rem;">
-                <a href="lesson10.php?action=update&id=<?= $post['id'] ?>" class="btn btn-secondary">
+                <a href="index.php?action=update&id=<?= $post['id'] ?>" class="btn btn-secondary">
                     <i class="fas fa-edit"></i> Изменить
                 </a>
-                <a href="lesson10.php?action=delete&id=<?= $post['id'] ?>"
+                <a href="index.php?action=delete&id=<?= $post['id'] ?>"
                    onclick="return confirm('Удалить эту новость?')"
                    class="btn btn-danger">
                     <i class="fas fa-trash"></i> Удалить
@@ -55,7 +55,7 @@
         </div>
 
         <div style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
-            <a href="lesson10.php" class="btn">
+            <a href="index.php" class="btn">
                 <i class="fas fa-arrow-left"></i> Вернуться к новостям
             </a>
         </div>

@@ -1,7 +1,4 @@
 <?php
-
-require '/var/www/public/Lesson10/config/db.php';
-
 class PostModel
 {
     private $pdo;
@@ -13,21 +10,15 @@ class PostModel
 
     public function getAll()        // достаем все посты
     {
-        $sql = "SELECT posts.id, posts.title, posts.content, users.username FROM posts JOIN users ON posts.user_id = users.id";
+        $sql = "SELECT posts.id, posts.title, posts.content, users.username, users.id as user_id FROM posts JOIN users ON posts.user_id = users.id";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-//    public function getAllUser()   - Не допер как сделать. нужно доперерь!
-//    {
-//        $sql = "SELECT users.id, users.username, users.email, users.password FROM users JOIN users ON users.id = users.id";
-//        $stmt = $this->pdo->query($sql);
-//        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-//    }
 
     public function find($id)  //VIEW - тут вытаскиваю и Username и id
     {
-        $sql = "SELECT posts.*, users.username FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = :id";
+        $sql = "SELECT posts.*, users.username, users.id as user_id FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = :id";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);

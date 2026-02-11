@@ -1,34 +1,29 @@
 <?php
 
 // session_start();
+require_once '/var/www/public/Lesson10/src/models/UserModel.php';
 
 class AuthController
 {
     private $pdo;
 
+    private UserModel $userModel;
+
     public function __construct($pdo)
     {
         $this->pdo = $pdo;
+        $this->userModel = new UserModel($pdo);
     }
 
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $result = $this->userModel->login($_POST);
 
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-
-            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");
-            $stmt->execute(['email' => $email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['id'];
-                header('Location: lesson10.php');
+            if ($result) {
+                header('Location: index.php');
                 exit;
             }
-
-            $error = 'Неверный email или пароль';
         }
 
         require '/var/www/public/Lesson10/src/view/users/login.php';
@@ -38,17 +33,14 @@ class AuthController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $stmt = $this->pdo->prepare(
-                "INSERT INTO users (username, email, password)VALUES (:u, :e, :p)"
-            );
+            $result =  $this->userModel->create($_POST);
 
-            $stmt->execute([
-                'u' => $_POST['username'],
-                'e' => $_POST['email'],
-                'p' => password_hash($_POST['password'], PASSWORD_DEFAULT)
-            ]);
+            if (!$result) {
+                header('Location: index.php?action=register');
+                exit;
+            }
 
-            header('Location: lesson10.php?action=login');
+            header('Location: index.php?action=login');
             exit;
         }
 
@@ -59,7 +51,7 @@ class AuthController
     {
         $_SESSION = [];
         session_destroy();
-        header('Location: lesson10.php');
+        header('Location: index.php');
         exit;
     }
 }
