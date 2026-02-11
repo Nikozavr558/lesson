@@ -1,0 +1,1 @@
+<a href="lesson10.php?action=logout">Выйти</a>
