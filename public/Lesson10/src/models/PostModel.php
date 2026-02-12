@@ -1,5 +1,6 @@
 <?php
 
+
 class PostModel
 {
     private $pdo;
@@ -57,5 +58,39 @@ class PostModel
         $stmt = $this->pdo->prepare("SELECT * FROM posts WHERE user_id = :id");
         $stmt->execute(['id' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+//    public function addTagToPost($post_id, $tag_id)
+//    {
+//        $sql = "INSERT INTO post_tags (post_id, tag_id) VALUES (:post_id, :tag_id)";
+//        $stmt = $this->pdo->prepare($sql);
+//        $stmt->execute(['post_id' => $post_id, 'tag_id' => $tag_id]);
+//
+//    }
+
+//    public function getTagsByPostId($post_id)
+//    {
+//        $sql = "SELECT tags.* FROM tags
+//                JOIN post_tags ON tags.id = post_tags.tag_id
+//                WHERE post_tags.post_id = :post_id";
+//        $stmt = $this->pdo->prepare($sql);
+//        $stmt->execute->fetchAll(PDO::FETCH_ASSOC);//   }
+
+    public function getById($id)
+    {
+        try {
+            $sql = "SELECT p.*, u.username 
+                FROM posts p 
+                JOIN users u ON p.user_id = u.id 
+                WHERE p.id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting post: " . $e->getMessage());
+            return null;
+        }
     }
 }
