@@ -2,16 +2,22 @@
 
 require_once '/var/www/public/Lesson10/src/models/PostModel.php';
 
+
+use Models\CommentModel;
+
 class PostController
 {
     private $pdo;
     private $postModel;
+    private $commentModel;
 
     public function __construct($pdo)
     {
         $this->pdo = $pdo;
 
         $this->postModel = new PostModel($pdo);
+
+        $this->commentModel = new CommentModel($pdo);
     }
 
     public function index()
@@ -89,9 +95,43 @@ class PostController
         if (!$post) {
             die('Пост не найден');
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_comment'])) {
+            $this->handleAddComment($id);
+        }
+        // Получаем комментарии для этого поста
+        $comments = $this->commentModel->getByPostId($id);
 
+        // Получаем количество комментариев
+        $commentsCount = $this->commentModel->getCountByPostId($id);
         // Показываем View
         require '/var/www/public/Lesson10/src/view/post/view_post.php';
     }
+
+    private function handleAddComment($postId)
+    {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['error'] = 'Необходимо авторизоваться';
+            header('Location: index.php?action=view&id=' . $postId);
+            exit;
+        }
+
+        $content = trim($_POST['content'] ?? '');
+
+        if (empty($content)) {
+            $_SESSION['error'] = 'Комментарий не может быть пустым';
+        } else {
+            $userId = $_SESSION['user']['id'];
+
+            if ($this->commentModel->create($postId, $userId, $content)) {
+                $_SESSION['success'] = 'Комментарий успешно добавлен';
+            } else {
+                $_SESSION['error'] = 'Ошибка при добавлении комментария';
+            }
+        }
+
+        header('Location: index.php?action=view&id=' . $postId);
+        exit;
+    }
 }
+
 

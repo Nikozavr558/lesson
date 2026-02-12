@@ -1,17 +1,8 @@
 <?php
-
+// /var/www/public/Lesson10/src/view/post/enter_point.php
 $user = $_SESSION['user'] ?? null;
-
-if ($user): ?>
-
-    <p>Вы вошли как пользователь <?= $user['username'] ?> |# <?= $user['id'] ?></p>
-    <a href="index.php?action=profile">Профиль</a> |
-    <a href="index.php?action=logout">Выйти</a>
-<?php else: ?>
-    <a href="index.php?action=login">Войти</a>
-    <a href="index.php?action=register">Регистрация</a>
-<?php endif; ?>
-
+$posts = $posts ?? []; // Инициализируем пустым массивом, если не определена
+?>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -27,8 +18,7 @@ if ($user): ?>
     <!-- Шапка -->
     <header class="header fade-in">
         <h1><i class="fas fa-newspaper"></i>Новостная лента нашего района</h1>
-        <p>Самые свежие новости и
-            события. Такого вы еще не читали</p>
+        <p>Самые свежие новости и события. Такого вы еще не читали</p>
     </header>
 
     <!-- Навигация -->
@@ -45,6 +35,26 @@ if ($user): ?>
             <?php endif; ?>
         </div>
     </nav>
+
+    <!-- Информация о пользователе -->
+    <?php if ($user): ?>
+        <div style="background: white; padding: 1rem; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <p style="margin: 0;">
+                <i class="fas fa-user-circle"></i>
+                Вы вошли как <strong><?= htmlspecialchars($user['username'] ?? '') ?></strong> |
+                #<?= $user['id'] ?? '' ?>
+            </p>
+            <div>
+                <a href="index.php?action=profile" style="margin-right: 15px;">Профиль</a>
+                <a href="index.php?action=logout" style="color: #e53e3e;">Выйти</a>
+            </div>
+        </div>
+    <?php else: ?>
+        <div style="background: white; padding: 1rem; border-radius: 10px; margin-bottom: 20px;">
+            <a href="index.php?action=login">Войти</a> |
+            <a href="index.php?action=register">Регистрация</a>
+        </div>
+    <?php endif; ?>
 
     <!-- Сетка постов -->
     <?php if (empty($posts)): ?>
@@ -65,30 +75,28 @@ if ($user): ?>
     <?php else: ?>
         <div class="posts-grid fade-in">
             <?php foreach ($posts as $row): ?>
-
                 <article class="post-card">
                     <div class="post-image">
-                        <!--<image style="object-fit: contain" src="data:image/jpeg;base64,<?= $row['image'] ?>"></image>-->
                         <i class="fas fa-newspaper"></i>
                     </div>
                     <div class="post-content">
-                        <h3 class="post-title"><?= htmlspecialchars($row['title']) ?></h3>
+                        <h3 class="post-title"><?= htmlspecialchars($row['title'] ?? '') ?></h3>
                         <p class="post-excerpt">
-                            <?= mb_substr(strip_tags(htmlspecialchars($row['content'])), 0, 100) ?>...
+                            <?= mb_substr(strip_tags(htmlspecialchars($row['content'] ?? '')), 0, 100) ?>...
                         </p>
                         <div class="post-meta">
                             <div class="author">
                                 <div class="author-avatar">
-                                    <?= mb_substr(htmlspecialchars($row['username']), 0, 1) ?>
+                                    <?= mb_substr(htmlspecialchars($row['username'] ?? 'А'), 0, 1) ?>
                                 </div>
-                                <span><?= htmlspecialchars($row['username']) ?></span>
+                                <span><?= htmlspecialchars($row['username'] ?? 'Автор') ?></span>
                             </div>
                             <div class="post-actions">
-                                <a href="index.php?action=view&id=<?= $row['id'] ?>"
+                                <a href="index.php?action=view&id=<?= $row['id'] ?? 0 ?>"
                                    class="btn" style="padding: 0.4rem 0.8rem;">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <?php if ($user && $user['id'] == $row['user_id']): ?>
+                                <?php if ($user && isset($user['id']) && isset($row['user_id']) && $user['id'] == $row['user_id']): ?>
                                     <a href="index.php?action=update&id=<?= $row['id'] ?>"
                                        class="btn btn-secondary" style="padding: 0.4rem 0.8rem;">
                                         <i class="fas fa-edit"></i>
@@ -99,7 +107,6 @@ if ($user): ?>
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 <?php endif; ?>
-
                             </div>
                         </div>
                     </div>

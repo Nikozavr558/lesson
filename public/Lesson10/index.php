@@ -6,6 +6,7 @@ require '/var/www/public/Lesson10/config/db.php';
 require '/var/www/public/Lesson10/src/controllers/PostController.php';
 require '/var/www/public/Lesson10/src/controllers/AuthController.php';
 require '/var/www/public/Lesson10/src/controllers/UserController.php';
+require '/var/www/public/Lesson10/src/models/CommentModel.php';
 
 $userId = $_SESSION['user_id'] ?? null;
 
